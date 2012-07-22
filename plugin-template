@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function help() {
+  description
+  usage
+}
+
+
+function do() {
+}
+
+function description() {
+}
+
+
+function usage() {
+}
+
+COMMAND=$1
+shift
+$COMMAND $@
+

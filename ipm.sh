@@ -5,9 +5,9 @@ BUILTIN_DIR=$IPM_DIR/.builtin
 
 function ipm() {
   if [ $# -lt 1 ]; then
-    nvm_help
+    ipm_help
   elif [ "$1" == "help" ]; then
-    nvm_help
+    ipm_help
   else
 
     COMMAND=$1
@@ -29,7 +29,8 @@ function ipm() {
 }
 
 
-function nvm_help() {
+function ipm_help() {
+  echo "ipm:	Ivy Project Manager"
   show_function_descriptions $IPM_DIR/.builtin
   if [ -d "$PLUGIN_DIR" ]; then
     for i in $PLUGIN_DIR/*; do
@@ -41,6 +42,6 @@ function nvm_help() {
 function show_function_descriptions() {
   DIR=$1
   for i in $DIR/*; do
-    $i description
+    echo "$(basename $i)	$($i description)"
   done
 }
