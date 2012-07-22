@@ -1,0 +1,10 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="%%PROJECT_NAME%%" default="test" basedir=".">
+	<property environment="env"/>
+	<property name="IVM_DIR" location="${env.IVM_DIR}"/>
+	<description>
+        Build file for %%PROJECT_NAME%% project
+    </description>
+	<property file="build.properties"/>
+	<import file="${IVM_DIR}/build-common.xml"/>
+</project>
+

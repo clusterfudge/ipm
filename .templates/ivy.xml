@@ -1,0 +1,5 @@
+<ivy-module version="1.0">
+    <info organisation="%%ORGANIZATION_NAME%%" module="%%PROJECT_NAME%%"/>
+    <dependencies>
+    </dependencies>
+</ivy-module>

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+function help() {
+  description
+  usage
+}
+
+
+function do() {
+  NAME=$1
+  FORCE=false
+  if [ $# -gt 1 ]; then
+    if [ "$2" == "-f" ]; then
+      FORCE=$2
+    fi
+  fi
+
+  DIR_NAME=$(pwd)/$NAME
+  if [[ -d "$DIR_NAME" && "$FORCE" != "-f" ]]; then
+    echo "Project directory already exists. Aborting. Use -f to force create (files will be backed up)"
+  else
+    mkdir -p $DIR_NAME
+  fi
+
+  backup_file $DIR_NAME/build.xml
+  cat $IPM_DIR/.templates/build.xml | sed "s/%%PROJECT_NAME%%/$NAME/g" > $DIR_NAME/build.xml
+  backup_file $DIR_NAME/ivy.xml
+  cat $IPM_DIR/.templates/ivy.xml | sed "s/%%PROJECT_NAME%%/$NAME/g" > $DIR_NAME/ivy.xml
+  backup_file $DIR_NAME/build.properties
+  cp $IPM_DIR/build.properties $DIR_NAME/build.properties
+
+  mkdir -p $IPM_DIR/src
+  mkdir -p $IPM_DIR/test
+  mkdir -p $IPM_DIR/lib
+}
+
+function description() {
+  echo "Create a new project"
+}
+
+function backup_file() {
+  if [ -f $1 ]; then
+    mv $1 $1.bak
+  fi
+}
+
+function usage() {
+  echo "create <project name>"
+}
+
+COMMAND=$1
+shift
+$COMMAND $@
+

@@ -1,0 +1,89 @@
+<project name="common" 
+         xmlns:ivy="antlib:org.apache.ivy.ant">
+	<!-- set global properties for this build -->
+	<property name="dir.src" location="src" />
+	<property name="dir.build" location="build/java" />
+	<property name="dir.build.test" location="build/test" />
+        <property name="build.instrumented" location="build/instrumented"/>
+	<property name="dir.test" location="test" />
+	<property name="dir.dist" location="dist" />
+	<property name="dir.lib" location="lib" />
+	<property name="dir.conf" location="conf" />
+	<property name="dir.temp" location="build/web" />
+	<property name="dir.web" location="WebContent"/>
+	<property name="dir.temp.web-inf" location="${dir.temp}/WEB-INF" />
+	<property name="dir.reports.tests" value="reports/tests"/>
+
+	<path id="classpath">
+		<fileset dir="${dir.lib}" includes="*.jar" />
+	</path>
+
+	<target name="init">
+                <ivy:retrieve />
+		<mkdir dir="${dir.build}" />
+		<property name="release.name" value="${ant.project.name}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${dir.src}" destdir="${dir.build}" classpathref="classpath" debug="true" />
+	</target>
+
+	<target name="dist" depends="clean,compile" description="generate the distribution">
+		<mkdir dir="${dir.dist}/lib" />
+		<jar jarfile="${dir.dist}/lib/${ant.project.name}.jar" basedir="${dir.build}" />
+                <ivy:publish resolver="local"
+                    artifactspattern="${dist}/lib/[artifact].[ext]"/>
+	</target>
+
+
+	<target name="clean" description="clean up">
+		<delete dir="${dir.build}" />
+		<delete dir="${dir.dist}" />
+		<delete dir="${dir.build.test}"/>
+		<delete dir="${dir.lib}" />
+		<delete dir="${dir.reports.tests}"/>
+	</target>
+
+	<target name="compile-tests" depends="compile">
+		<mkdir dir="${dir.build.test}"/>
+		<javac srcdir="${dir.tests}" destdir="${dir.build.test}" debug="true">
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${dir.build}"/>
+				<pathelement location="${common.dir}/junit.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="run-tests" depends="compile-tests">
+                <mkdir dir="${reports.tests}"/>
+                <junit haltonerror="false" haltonfailure="false" printsummary="yes" 
+                                errorproperty="test.error" failureproperty="test.failed"
+                                fork="true" dir="${basedir}">
+                        <classpath>
+                                <path refid="classpath"/>
+                                <pathelement location="${dir.build}"/>
+                                <pathelement location="${dir.build.test}"/>
+                                <pathelement location="${common.dir}/junit.jar"/>
+                        </classpath>
+
+                        <batchtest fork="true" todir="${dir.reports.tests}">
+                                <fileset dir="${dir.tests}">
+                                        <include name="**/*Test*.java"/>
+                                        <exclude name="**/AllTests.java"/>
+                                </fileset>
+                        </batchtest>
+
+                </junit>
+	</target>
+	<target name="test" depends="run-tests">
+		<junitreport todir="${dir.reports.tests}">
+			<fileset dir="${dir.reports.tests}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${dir.reports.tests}" />
+		</junitreport>
+		<fail message="Test failure detected, check test results." if="test.failed" />
+		<fail message="Test error detected, check test results." if="test.error" />
+	</target>
+</project>
