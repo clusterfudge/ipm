@@ -15,13 +15,13 @@ function ipm() {
     shift
  
     if [ -f "$BUILTIN_DIR/$COMMAND" ]; then
-      $BUILTIN_DIR/$COMMAND "do" $@
+      $BUILTIN_DIR/$COMMAND $@
     fi
 
     if [ -d "$IVM_DIR/plugins" ]; then
       for i in $PLUGIN_DIR/*; do
         if [ -f "$PLUGIN_DIR/$i/$COMMAND" ] || [ -l "$PLUGIN_DIR/$i/$COMMAND" ]; then
-          $PLUGIN_DIR/$i/$COMMAND "do" $@
+          $PLUGIN_DIR/$i/$COMMAND $@
         fi
       done
     fi

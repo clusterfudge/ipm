@@ -6,7 +6,7 @@ function help() {
 }
 
 
-function do() {
+function SOME_COMMAND_HERE() {
 }
 
 function description() {

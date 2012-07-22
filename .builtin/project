@@ -1,4 +1,5 @@
 #!/bin/bash
+set -Eeu
 
 function help() {
   description
@@ -6,12 +7,25 @@ function help() {
 }
 
 
-function do() {
-  NAME=$1
+function create() {
+  if [ $# -lt 2 ]; then
+    usage
+    return
+  fi
+
+  WORKSPACE_FILE=$(pwd)/.ipm-workspace
+
+  if [ ! -f $WORKSPACE_FILE ]; then
+    echo "This is not an ipm workspace directory."
+    return
+  fi
+  WORKSPACE_DIR=$(cat $WORKSPACE_FILE)
+  ORG_NAME=$1
+  NAME=$2
   FORCE=false
-  if [ $# -gt 1 ]; then
-    if [ "$2" == "-f" ]; then
-      FORCE=$2
+  if [ $# -gt 2 ]; then
+    if [ "$3" == "-f" ]; then
+      FORCE=$3
     fi
   fi
 
@@ -25,9 +39,9 @@ function do() {
   backup_file $DIR_NAME/build.xml
   cat $IPM_DIR/.templates/build.xml | sed "s/%%PROJECT_NAME%%/$NAME/g" > $DIR_NAME/build.xml
   backup_file $DIR_NAME/ivy.xml
-  cat $IPM_DIR/.templates/ivy.xml | sed "s/%%PROJECT_NAME%%/$NAME/g" > $DIR_NAME/ivy.xml
+  cat $IPM_DIR/.templates/ivy.xml | sed "s/%%PROJECT_NAME%%/$NAME/g" | sed "s/%%ORGANIZATION_NAME%%/$ORG_NAME/g" > $DIR_NAME/ivy.xml
   backup_file $DIR_NAME/build.properties
-  cp $IPM_DIR/build.properties $DIR_NAME/build.properties
+  cat $IPM_DIR/.templates/build.properties | sed "s|%%WORKSPACE_DIR%%|$WORKSPACE_DIR|g" > $DIR_NAME/build.properties
 
   mkdir -p $IPM_DIR/src
   mkdir -p $IPM_DIR/test
@@ -35,7 +49,7 @@ function do() {
 }
 
 function description() {
-  echo "Create a new project"
+  echo "project management tools"
 }
 
 function backup_file() {
@@ -45,7 +59,7 @@ function backup_file() {
 }
 
 function usage() {
-  echo "create <project name>"
+  echo "create <organization name> <project name>"
 }
 
 COMMAND=$1

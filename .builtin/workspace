@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function help() {
+  description
+  usage
+}
+
+
+function create() {
+  NAME=$1
+  WORKSPACE_DIR=$(pwd)/$NAME
+  if [ $# -gt 1 ]; then
+    WORKSPACE_DIR=$2
+  fi
+
+  mkdir -p $WORKSPACE_DIR
+  echo "$(cd $WORKSPACE_DIR && pwd)" > $WORKSPACE_DIR/.ipm-workspace
+}
+
+function description() {
+  echo "Workspace management tools"
+}
+
+
+function usage() {
+  echo "create <workspace_name> <alternate workspace dir (optional: default ./WORKSPACE_NAME)>"
+}
+
+COMMAND=$1
+shift
+$COMMAND $@
+

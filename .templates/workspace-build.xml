@@ -1,0 +1,27 @@
+<project name="caprica" default="publish-all" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <target name="buildlist">
+    <ivy:buildlist reference="build-path">
+      <fileset dir="./" includes="alexa-*/build.xml" excludes="./build.xml,alexa-deploy/build.xml,alexa-ref-plugin/build.xml"/>
+    </ivy:buildlist>
+  </target>
+
+  <target name="publish-all" depends="buildlist" 
+                        description="compile, jar and publish all projects in the right order">
+    <subant target="dist" buildpathref="build-path"/>
+  </target>
+
+  <target name="clean" depends="buildlist" description="clean all projects">
+    <subant target="clean" buildpathref="build-path" />
+  </target>
+
+  <target name="test" depends="buildlist" description="run tests in all projects">
+    <subant target="test" buildpathref="build-path"/>
+  </target>
+
+  <target name="purge" depends="clean" 
+                        description="clean tutorial: delete repository, ivy cache, and all projects">
+    <delete dir="repository"/>
+        <ivy:cleancache />
+  </target>
+
+</project>
