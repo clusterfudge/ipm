@@ -24,7 +24,7 @@ if len(sys.argv) < 3 or sys.argv[1] != "add":
 
 org = sys.argv[2]
 name = sys.argv[3]
-rev = "rev.latest"
+rev = "latest.integration"
 
 if len(sys.argv) > 4:
     rev = sys.argv[4]

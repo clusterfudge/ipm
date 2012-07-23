@@ -4,7 +4,6 @@
 	<property name="dir.src" location="src" />
 	<property name="dir.build" location="build/java" />
 	<property name="dir.build.test" location="build/test" />
-        <property name="build.instrumented" location="build/instrumented"/>
 	<property name="dir.test" location="test" />
 	<property name="dir.dist" location="dist" />
 	<property name="dir.lib" location="lib" />
@@ -88,6 +87,14 @@
 				<pathelement location="${common.dir}/junit.jar"/>
 			</classpath>
 		</javac>
+	</target>
+
+	<target name="war" depends="dist">
+		<war destfile="${dir.dist}/lib/${release.name}.war" webxml="${dir.web}/WEB-INF/web.xml" basedir="${dir.web}" excludes="servlet-api.jar">
+			<fileset dir="${dir.web}"/>
+			<lib dir="${dir.dist}/lib" includes="*.jar"/>
+			<lib dir="${dir.lib}" includes="*.jar"/>
+		</war>
 	</target>
 
 	<target name="run-test" depends="compile-test">
