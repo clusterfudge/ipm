@@ -97,6 +97,14 @@
 		</war>
 	</target>
 
+	<target name="war-3.0" depends="dist">
+		<war destfile="${dir.dist}/lib/${release.name}.war" needxmlfile="false" basedir="${dir.web}" excludes="servlet-api.jar">
+			<fileset dir="${dir.web}"/>
+			<lib dir="${dir.dist}/lib" includes="*.jar"/>
+			<lib dir="${dir.lib}" includes="*.jar"/>
+		</war>
+	</target>
+
 	<target name="run-test" depends="compile-test">
                 <mkdir dir="${dir.reports.test}"/>
                 <junit haltonerror="false" haltonfailure="false" printsummary="yes" 
