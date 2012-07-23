@@ -45,3 +45,17 @@ function show_function_descriptions() {
     echo "$(basename $i)	$($i description)"
   done
 }
+
+function checkDependencies() {
+  PYTHON=$(which python)
+  if [ -z "$PYTHON" ]; then
+    echo "Python not found! Some modules will not function properly"
+  else
+    $PYTHON -c "import elementtree"
+    if [ $? != 0 ]; then
+      echo "Pease install elementtree python module"
+    fi    
+  fi
+}
+
+checkDependencies

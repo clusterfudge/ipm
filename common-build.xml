@@ -12,7 +12,7 @@
 	<property name="dir.temp" location="build/web" />
 	<property name="dir.web" location="WebContent"/>
 	<property name="dir.temp.web-inf" location="${dir.temp}/WEB-INF" />
-	<property name="dir.reports.tests" value="reports/tests"/>
+	<property name="dir.reports.test" value="reports/test"/>
 	<property name="ivy.install.version" value="2.0.0-beta1"/>
 	<property name="ivy.jar.dir" value="${basedir}/ivy"/>
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
@@ -76,12 +76,12 @@
 		<delete dir="${dir.dist}" />
 		<delete dir="${dir.build.test}"/>
 		<delete dir="${dir.lib}" />
-		<delete dir="${dir.reports.tests}"/>
+		<delete dir="${dir.reports.test}"/>
 	</target>
 
-	<target name="compile-tests" depends="compile">
+	<target name="compile-test" depends="compile">
 		<mkdir dir="${dir.build.test}"/>
-		<javac srcdir="${dir.tests}" destdir="${dir.build.test}" debug="true">
+		<javac srcdir="${dir.test}" destdir="${dir.build.test}" debug="true">
 			<classpath>
 				<path refid="classpath"/>
 				<pathelement location="${dir.build}"/>
@@ -90,8 +90,8 @@
 		</javac>
 	</target>
 
-	<target name="run-tests" depends="compile-tests">
-                <mkdir dir="${reports.tests}"/>
+	<target name="run-test" depends="compile-test">
+                <mkdir dir="${dir.reports.test}"/>
                 <junit haltonerror="false" haltonfailure="false" printsummary="yes" 
                                 errorproperty="test.error" failureproperty="test.failed"
                                 fork="true" dir="${basedir}">
@@ -102,8 +102,8 @@
                                 <pathelement location="${common.dir}/junit.jar"/>
                         </classpath>
 
-                        <batchtest fork="true" todir="${dir.reports.tests}">
-                                <fileset dir="${dir.tests}">
+                        <batchtest fork="true" todir="${dir.reports.test}">
+                                <fileset dir="${dir.test}">
                                         <include name="**/*Test*.java"/>
                                         <exclude name="**/AllTests.java"/>
                                 </fileset>
@@ -111,12 +111,12 @@
 
                 </junit>
 	</target>
-	<target name="test" depends="run-tests">
-		<junitreport todir="${dir.reports.tests}">
-			<fileset dir="${dir.reports.tests}">
+	<target name="test" depends="run-test">
+		<junitreport todir="${dir.reports.test}">
+			<fileset dir="${dir.reports.test}">
 				<include name="TEST-*.xml" />
 			</fileset>
-			<report todir="${dir.reports.tests}" />
+			<report todir="${dir.reports.test}" />
 		</junitreport>
 		<fail message="Test failure detected, check test results." if="test.failed" />
 		<fail message="Test error detected, check test results." if="test.error" />

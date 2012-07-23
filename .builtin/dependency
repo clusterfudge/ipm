@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+import elementtree.ElementTree as ET
+import sys
+
+def usage():
+    print("add <organization> <name> <rev (optional)>")
+
+
+def add(org, name, rev):
+    tree = ET.parse("ivy.xml")
+    root = tree.getroot()
+    dependencies = root.find("dependencies")
+	
+    dependency = ET.SubElement(dependencies, "dependency")
+    dependency.attrib["org"] = org
+    dependency.attrib["name"] = name
+    dependency.attrib["rev"] = rev
+    tree.write("ivy.xml")
+
+if len(sys.argv) < 3 or sys.argv[1] != "add":
+    usage
+    exit
+
+org = sys.argv[2]
+name = sys.argv[3]
+rev = "rev.latest"
+
+if len(sys.argv) > 4:
+    rev = sys.argv[4]
+
+add(org, name, rev)
