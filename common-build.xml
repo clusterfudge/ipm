@@ -67,7 +67,7 @@
 		<mkdir dir="${dir.dist}/lib" />
 		<jar jarfile="${dir.dist}/lib/${ant.project.name}.jar" basedir="${dir.build}" />
                 <ivy:publish resolver="local"
-                    artifactspattern="${dist}/lib/[artifact].[ext]"/>
+                    artifactspattern="${dir.dist}/lib/[artifact].[ext]"/>
 	</target>
 
 
