@@ -1,5 +1,6 @@
 #!/bin/bash
 export IPM_DIR=$(cd $(dirname ${BASH_SOURCE[0]:-$0}) && pwd)
+export IPM_VERSION="1.0"
 PLUGIN_DIR=$IPM_DIR/plugins
 BUILTIN_DIR=$IPM_DIR/.builtin
 

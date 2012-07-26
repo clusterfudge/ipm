@@ -14,7 +14,7 @@ function create() {
   fi
 
   mkdir -p $WORKSPACE_DIR
-  echo "$(cd $WORKSPACE_DIR && pwd)" > $WORKSPACE_DIR/.ipm-workspace
+  echo "IPM_VERSION = $IPM_VERSION" > $WORKSPACE_DIR/.ipm-workspace
   cp $IPM_DIR/common-build.xml $WORKSPACE_DIR
   cp $IPM_DIR/.templates/workspace-build.xml $WORKSPACE_DIR/build.xml
 }

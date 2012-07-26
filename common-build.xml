@@ -13,7 +13,7 @@
 	<property name="dir.temp.web-inf" location="${dir.temp}/WEB-INF" />
 	<property name="dir.reports.test" value="reports/test"/>
 	<property name="ivy.install.version" value="2.0.0-beta1"/>
-	<property name="ivy.jar.dir" value="${basedir}/ivy"/>
+	<property name="ivy.jar.dir" value="${basedir}/../ivy"/>
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 	<property name="build.dir" value="build"/>
 	<property name="src.dir" value="src"/>
@@ -94,6 +94,7 @@
 			<fileset dir="${dir.web}"/>
 			<lib dir="${dir.dist}/lib" includes="*.jar"/>
 			<lib dir="${dir.lib}" includes="*.jar"/>
+			<classes dir="{dir.web}/WEB-INF/lib" includes="*.properties"/>
 		</war>
 	</target>
 
@@ -102,6 +103,7 @@
 			<fileset dir="${dir.web}"/>
 			<lib dir="${dir.dist}/lib" includes="*.jar"/>
 			<lib dir="${dir.lib}" includes="*.jar"/>
+			<classes dir="{dir.web}/WEB-INF/lib" includes="*.properties"/>
 		</war>
 	</target>
 
