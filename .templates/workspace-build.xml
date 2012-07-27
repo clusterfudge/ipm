@@ -32,7 +32,7 @@
 	</target>
   <target name="buildlist" depends="install-ivy">
     <ivy:buildlist reference="build-path">
-      <fileset dir="./" includes="alexa-*/build.xml" excludes="./build.xml,alexa-deploy/build.xml,alexa-ref-plugin/build.xml"/>
+      <fileset dir="./" includes="*/build.xml" excludes="./build.xml"/>
     </ivy:buildlist>
   </target>
 
