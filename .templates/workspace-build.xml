@@ -43,7 +43,7 @@
 
   <target name="clean" depends="buildlist" description="clean all projects">
     <subant target="clean" buildpathref="build-path" />
-    <rm dir="${basedir}/packages"/>
+    <delete dir="${basedir}/packages"/>
   </target>
 
   <target name="test" depends="buildlist" description="run tests in all projects">
