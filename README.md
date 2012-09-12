@@ -31,7 +31,10 @@ ipm dependency add org.codehaus.jackson jackson-mapper 1.8.3
 ```
 
 You can also create dependencies between projects of your own, and build order will be managed for you.
-ipm 
+```
+cd myproject-tools
+ipm dependency add com.myproject myproject-common 
+```
 
 ## Extending IPM
 Documentation to follow
