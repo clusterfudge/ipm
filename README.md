@@ -18,17 +18,17 @@ Now, within the workspace folder, create some projects
 
 	ipm project create <organization> <project-name>	
 
-'''
+```
 ipm project create com.myproject myproject-common
 ipm project create com.myproject myproject-tools
-'''
+```
 
 Now, within the project folders, create some dependencies
 	ipm dependency add <organization> <module-name> <version (default: latest)>
 
-'''
+```
 ipm dependency add org.codehaus.jackson jackson-mapper 1.8.3
-'''
+```
 
 You can also create dependencies between projects of your own, and build order will be managed for you.
 ipm 
