@@ -60,6 +60,11 @@
 
 	<target name="compile" depends="init" description="compile the source ">
 		<javac srcdir="${dir.src}" destdir="${dir.build}" classpathref="classpath" debug="true" />
+		<copy todir="${dir.build}">
+			<fileset dir="${dir.src}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="dist" depends="clean,compile" description="generate the distribution">
@@ -103,7 +108,6 @@
 			<fileset dir="${dir.web}"/>
 			<lib dir="${dir.dist}/lib" includes="*.jar"/>
 			<lib dir="${dir.lib}" includes="*.jar"/>
-			<classes dir="{dir.web}/WEB-INF/lib" includes="*.properties"/>
 		</war>
 	</target>
 
